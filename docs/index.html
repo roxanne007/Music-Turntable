@@ -6,6 +6,7 @@
   <title>Roxy DJ Deck</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://unpkg.com/wavesurfer.js"></script>
+  <script defer src="script.js"></script>
 </head>
 <body>
   <div class="main-ui">
@@ -38,9 +39,9 @@
           <input type="range" id="volumeA" min="0" max="1" step="0.01" value="0.5" />
         </div>
         <div class="eq-controls">
-          <label>Bass</label><input type="range" min="0" max="1" step="0.01" value="0.5" />
-          <label>Mid</label><input type="range" min="0" max="1" step="0.01" value="0.5" />
-          <label>Treble</label><input type="range" min="0" max="1" step="0.01" value="0.5" />
+          <label>Bass</label><input id="bassA" type="range" min="0" max="1" step="0.01" value="0.5" />
+          <label>Mid</label><input id="midA" type="range" min="0" max="1" step="0.01" value="0.5" />
+          <label>Treble</label><input id="trebleA" type="range" min="0" max="1" step="0.01" value="0.5" />
           <label>Pitch</label><input type="range" min="0.5" max="2" step="0.01" value="1" id="pitchA" />
         </div>
       </section>
@@ -62,31 +63,13 @@
           <input type="range" id="volumeB" min="0" max="1" step="0.01" value="0.5" />
         </div>
         <div class="eq-controls">
-          <label>Bass</label><input type="range" min="0" max="1" step="0.01" value="0.5" />
-          <label>Mid</label><input type="range" min="0" max="1" step="0.01" value="0.5" />
-          <label>Treble</label><input type="range" min="0" max="1" step="0.01" value="0.5" />
+          <label>Bass</label><input id="bassB" type="range" min="0" max="1" step="0.01" value="0.5" />
+          <label>Mid</label><input id="midB" type="range" min="0" max="1" step="0.01" value="0.5" />
+          <label>Treble</label><input id="trebleB" type="range" min="0" max="1" step="0.01" value="0.5" />
           <label>Pitch</label><input type="range" min="0.5" max="2" step="0.01" value="1" id="pitchB" />
         </div>
       </section>
     </div>
   </div>
-
-  <script>
-    // ...existing waveA/waveB logic
-
-    document.getElementById('searchInput').addEventListener('input', function () {
-      const searchTerm = this.value.toLowerCase();
-      document.querySelectorAll('#trackList li').forEach(li => {
-        li.style.display = li.textContent.toLowerCase().includes(searchTerm) ? '' : 'none';
-      });
-    });
-
-    function filterGenre(genre) {
-      document.querySelectorAll('#trackList li').forEach(li => {
-        const match = li.dataset.genre === genre || genre === 'All';
-        li.style.display = match ? '' : 'none';
-      });
-    }
-  </script>
 </body>
 </html>
