@@ -10,7 +10,16 @@
 <body>
   <div class="main-ui">
     <div class="deck-container">
-      <div class="deck" id="deckA">
+      <div class="library">
+        <h3>Music Library</h3>
+        <ul id="trackList">
+          <li draggable="true" data-url="assets/track1.mp3">Demo Track 1</li>
+          <li draggable="true" data-url="assets/track2.mp3">Demo Track 2</li>
+          <li draggable="true" data-url="assets/track3.mp3">Demo Track 3</li>
+        </ul>
+      </div>
+
+      <div class="deck" id="deckA" ondrop="handleDrop(event, 'A')" ondragover="event.preventDefault()">
         <div class="vinyl" id="vinylA"></div>
         <input type="file" accept="audio/*" onchange="loadTrack(event, 'A')">
         <div id="waveformA" class="waveform"></div>
@@ -32,7 +41,7 @@
         <label>Treble<input type="range" id="treble" min="0" max="1" step="0.01" value="0.5" disabled /></label>
       </div>
 
-      <div class="deck" id="deckB">
+      <div class="deck" id="deckB" ondrop="handleDrop(event, 'B')" ondragover="event.preventDefault()">
         <div class="vinyl" id="vinylB"></div>
         <input type="file" accept="audio/*" onchange="loadTrack(event, 'B')">
         <div id="waveformB" class="waveform"></div>
@@ -52,8 +61,6 @@
     let waveA, waveB;
     let loopA = false, loopB = false;
 
-    const vinylA = document.getElementById('vinylA');
-    const vinylB = document.getElementById('vinylB');
     const deckA = document.getElementById('deckA');
     const deckB = document.getElementById('deckB');
 
@@ -113,7 +120,10 @@
       const file = event.target.files[0];
       if (!file) return;
       const url = URL.createObjectURL(file);
+      loadTrackURL(url, deck);
+    }
 
+    function loadTrackURL(url, deck) {
       if (deck === 'A') {
         waveA.load(url);
         deckA.classList.remove('playing');
@@ -122,6 +132,18 @@
         deckB.classList.remove('playing');
       }
     }
+
+    function handleDrop(event, deck) {
+      event.preventDefault();
+      const url = event.dataTransfer.getData('text/plain');
+      loadTrackURL(url, deck);
+    }
+
+    document.querySelectorAll('#trackList li').forEach(item => {
+      item.addEventListener('dragstart', e => {
+        e.dataTransfer.setData('text/plain', item.getAttribute('data-url'));
+      });
+    });
 
     volumeA.addEventListener('input', () => {
       waveA.setVolume(parseFloat(volumeA.value) * (1 - parseFloat(crossfader.value)));
