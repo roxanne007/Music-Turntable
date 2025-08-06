@@ -1,102 +1,106 @@
 body {
   margin: 0;
-  padding: 0;
-  background: #0d0d0d;
   font-family: 'Segoe UI', sans-serif;
+  background: #121212;
   color: #f0f0f0;
   display: flex;
   justify-content: center;
   align-items: stretch;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .main-ui {
   display: flex;
   width: 100%;
   max-width: 1600px;
-  height: 100vh;
-  overflow: hidden;
 }
 
 .sidebar {
-  background: #111;
-  padding: 20px;
   width: 300px;
+  background: #1a1a1a;
+  padding: 20px;
+  overflow-y: auto;
   border-right: 1px solid #333;
-  display: flex;
-  flex-direction: column;
-  box-shadow: inset -1px 0 0 #222;
 }
 
-.sidebar h3 {
-  margin: 0 0 10px;
+.sidebar h2 {
   font-size: 1.2rem;
+  margin-bottom: 10px;
 }
 
 #searchInput {
+  width: 100%;
   padding: 8px;
-  border-radius: 5px;
   border: none;
+  border-radius: 5px;
+  background: #333;
+  color: white;
   margin-bottom: 15px;
-  font-size: 1rem;
-  background: #222;
-  color: #fff;
 }
 
 #trackList {
   list-style: none;
   padding: 0;
   margin: 0;
-  overflow-y: auto;
-  flex-grow: 1;
 }
 
 #trackList li {
+  background: #292929;
+  margin-bottom: 10px;
   padding: 10px;
-  margin-bottom: 8px;
-  background: #222;
-  border-radius: 6px;
+  border-radius: 5px;
   cursor: grab;
-  font-size: 0.95rem;
   transition: background 0.2s;
 }
 
 #trackList li:hover {
-  background: #333;
+  background: #3d3d3d;
 }
 
-.filter-tags {
-  margin-top: 10px;
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.filter-tags button {
+.decks {
   flex: 1;
-  padding: 6px 8px;
-  background: #ff4081;
-  border: none;
-  border-radius: 5px;
-  color: #fff;
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.filter-tags button:hover {
-  background: #ff5b97;
-}
-
-.deck-container {
-  flex: 1;
-  padding: 20px;
   display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: flex-start;
+  padding: 20px;
   overflow-y: auto;
 }
 
-/* Add your existing styles for .deck, .waveform, .vinyl, .controls, .mixer, etc. below as needed */
+.deck, .mixer {
+  background: #1e1e1e;
+  border-radius: 10px;
+  padding: 20px;
+  width: 30%;
+  min-width: 300px;
+}
+
+.waveform {
+  height: 100px;
+  background: #000;
+  margin-bottom: 10px;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  background: #ff4081;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #ff669a;
+}
+
+input[type=range] {
+  width: 100%;
+  accent-color: #ff4081;
+}
