@@ -1,7 +1,6 @@
 let waveA, waveB;
+let loopA = false, loopB = false;
 
-const vinylA = document.getElementById('vinylA');
-const vinylB = document.getElementById('vinylB');
 const deckA = document.getElementById('deckA');
 const deckB = document.getElementById('deckB');
 
@@ -32,6 +31,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
   waveA.setVolume(0.5);
   waveB.setVolume(0.5);
+
+  waveA.on('finish', () => { if (loopA) waveA.play(); });
+  waveB.on('finish', () => { if (loopB) waveB.play(); });
 });
 
 function togglePlay(deck) {
@@ -44,11 +46,24 @@ function togglePlay(deck) {
   }
 }
 
+function toggleLoop(deck) {
+  if (deck === 'A') {
+    loopA = !loopA;
+    document.getElementById('loopA').classList.toggle('active', loopA);
+  } else {
+    loopB = !loopB;
+    document.getElementById('loopB').classList.toggle('active', loopB);
+  }
+}
+
 function loadTrack(event, deck) {
   const file = event.target.files[0];
   if (!file) return;
   const url = URL.createObjectURL(file);
+  loadTrackURL(url, deck);
+}
 
+function loadTrackURL(url, deck) {
   if (deck === 'A') {
     waveA.load(url);
     deckA.classList.remove('playing');
@@ -57,6 +72,18 @@ function loadTrack(event, deck) {
     deckB.classList.remove('playing');
   }
 }
+
+function handleDrop(event, deck) {
+  event.preventDefault();
+  const url = event.dataTransfer.getData('text/plain');
+  loadTrackURL(url, deck);
+}
+
+document.querySelectorAll('#trackList li').forEach(item => {
+  item.addEventListener('dragstart', e => {
+    e.dataTransfer.setData('text/plain', item.getAttribute('data-url'));
+  });
+});
 
 volumeA.addEventListener('input', () => {
   waveA.setVolume(parseFloat(volumeA.value) * (1 - parseFloat(crossfader.value)));
@@ -79,3 +106,19 @@ crossfader.addEventListener('input', () => {
   waveA.setVolume(parseFloat(volumeA.value) * (1 - cf));
   waveB.setVolume(parseFloat(volumeB.value) * cf);
 });
+
+// Search filtering
+document.getElementById('searchInput').addEventListener('input', function () {
+  const searchTerm = this.value.toLowerCase();
+  document.querySelectorAll('#trackList li').forEach(li => {
+    li.style.display = li.textContent.toLowerCase().includes(searchTerm) ? '' : 'none';
+  });
+});
+
+// Genre filtering
+function filterGenre(genre) {
+  document.querySelectorAll('#trackList li').forEach(li => {
+    const match = li.dataset.genre === genre || genre === 'All';
+    li.style.display = match ? '' : 'none';
+  });
+}
