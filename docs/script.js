@@ -1,89 +1,82 @@
-let waveA = WaveSurfer.create({
+// Initialize WaveSurfer instances for Deck A and Deck B
+const waveA = WaveSurfer.create({
   container: '#waveformA',
-  waveColor: '#ddd',
-  progressColor: '#f44336',
+  waveColor: 'violet',
+  progressColor: 'purple',
   height: 80
 });
 
-let waveB = WaveSurfer.create({
+const waveB = WaveSurfer.create({
   container: '#waveformB',
-  waveColor: '#ddd',
-  progressColor: '#2196f3',
+  waveColor: 'cyan',
+  progressColor: 'blue',
   height: 80
 });
 
-let isLoopingA = false;
-let isLoopingB = false;
-let cueA = 0;
-let cueB = 0;
+let cuePoints = { A: 0, B: 0 };
+let loopEnabled = { A: false, B: false };
 
-// Load track to the correct deck
-function loadTrack(deck, url, label) {
+function loadTrack(deck, url, title, bpm) {
   const wave = deck === 'A' ? waveA : waveB;
-  const volumeSlider = document.getElementById(`volume${deck}`);
-  const pitchSlider = document.getElementById(`pitch${deck}`);
-  const bpmDisplay = document.getElementById(`bpm${deck}`);
-  const nowPlaying = document.getElementById(`nowPlaying${deck}`);
-
   wave.load(url);
-  wave.setVolume(volumeSlider.value);
-  wave.setPlaybackRate(pitchSlider.value);
-  nowPlaying.textContent = `🎧 Now playing: ${label}`;
-  bpmDisplay.textContent = '--';
+  document.getElementById(`nowPlaying${deck}`).textContent = `Now Playing: ${title}`;
+  document.getElementById(`bpm${deck}`).textContent = bpm;
 }
 
-// Toggle play/pause
 function togglePlay(deck) {
   const wave = deck === 'A' ? waveA : waveB;
   wave.playPause();
 }
 
-// Toggle loop
 function toggleLoop(deck) {
-  const wave = deck === 'A' ? waveA : waveB;
-  const isLooping = deck === 'A' ? isLoopingA : isLoopingB;
-
-  if (!isLooping) {
-    const cue = deck === 'A' ? cueA : cueB;
-    const loopEnd = cue + 5; // loop 5 seconds
-    wave.play(cue, loopEnd);
-    if (deck === 'A') isLoopingA = true;
-    else isLoopingB = true;
-  } else {
-    wave.playPause();
-    if (deck === 'A') isLoopingA = false;
-    else isLoopingB = false;
-  }
+  loopEnabled[deck] = !loopEnabled[deck];
 }
 
-// Set cue point
 function setCue(deck) {
   const wave = deck === 'A' ? waveA : waveB;
-  const currentTime = wave.getCurrentTime();
-  if (deck === 'A') cueA = currentTime;
-  else cueB = currentTime;
-  alert(`🎯 Cue set at ${currentTime.toFixed(2)}s for Deck ${deck}`);
+  cuePoints[deck] = wave.getCurrentTime();
 }
 
-// Handle drag-and-drop
 function handleDrop(event, deck) {
   event.preventDefault();
-  const url = event.dataTransfer.getData("text/plain");
-  const label = event.dataTransfer.getData("text/label");
-  if (url && label) {
-    loadTrack(deck, url, label);
-  }
+  const url = event.dataTransfer.getData('url');
+  const title = event.dataTransfer.getData('title');
+  const bpm = event.dataTransfer.getData('bpm');
+  loadTrack(deck, url, title, bpm);
 }
 
-// Genre filter
-function filterGenre(genre) {
-  document.querySelectorAll('#trackList li').forEach(li => {
-    const match = li.dataset.genre === genre || genre === 'All';
-    li.style.display = match ? '' : 'none';
+// Drag functionality
+const tracks = document.querySelectorAll('#trackList li');
+tracks.forEach(track => {
+  track.addEventListener('dragstart', e => {
+    e.dataTransfer.setData('url', track.dataset.url);
+    e.dataTransfer.setData('title', track.textContent);
+    e.dataTransfer.setData('bpm', track.dataset.bpm);
   });
-}
+});
 
-// Search bar
+// File Upload Handler
+document.getElementById('fileInput').addEventListener('change', (e) => {
+  const list = document.getElementById('trackList');
+  for (let file of e.target.files) {
+    const url = URL.createObjectURL(file);
+    const li = document.createElement('li');
+    li.textContent = file.name;
+    li.dataset.url = url;
+    li.dataset.bpm = '--';
+    li.dataset.genre = 'Uploaded';
+    li.draggable = true;
+
+    li.addEventListener('dragstart', e => {
+      e.dataTransfer.setData('url', url);
+      e.dataTransfer.setData('title', file.name);
+      e.dataTransfer.setData('bpm', '--');
+    });
+    list.appendChild(li);
+  }
+});
+
+// Search Functionality
 document.getElementById('searchInput').addEventListener('input', function () {
   const term = this.value.toLowerCase();
   document.querySelectorAll('#trackList li').forEach(li => {
@@ -91,39 +84,37 @@ document.getElementById('searchInput').addEventListener('input', function () {
   });
 });
 
-// File upload (adds to trackList)
-const fileInput = document.getElementById('fileInput');
-fileInput.addEventListener('change', function () {
-  [...this.files].forEach(file => {
-    const url = URL.createObjectURL(file);
-    const name = file.name.replace(/\.[^/.]+$/, "");
-    const li = document.createElement('li');
-
-    li.textContent = `${name} (User Track)`;
-    li.setAttribute('draggable', 'true');
-    li.dataset.url = url;
-    li.dataset.genre = 'User';
-    li.dataset.bpm = '--';
-
-    li.addEventListener('dragstart', function (e) {
-      e.dataTransfer.setData("text/plain", this.dataset.url);
-      e.dataTransfer.setData("text/label", this.textContent);
-    });
-
-    document.getElementById('trackList').appendChild(li);
+function filterGenre(genre) {
+  document.querySelectorAll('#trackList li').forEach(li => {
+    const match = li.dataset.genre === genre || genre === 'All';
+    li.style.display = match ? '' : 'none';
   });
+}
+
+// Volume controls
+document.getElementById('volumeA').addEventListener('input', (e) => {
+  waveA.setVolume(e.target.value);
+});
+document.getElementById('volumeB').addEventListener('input', (e) => {
+  waveB.setVolume(e.target.value);
 });
 
-// Volume & pitch controls
-document.getElementById('volumeA').addEventListener('input', e => waveA.setVolume(e.target.value));
-document.getElementById('volumeB').addEventListener('input', e => waveB.setVolume(e.target.value));
-document.getElementById('pitchA').addEventListener('input', e => waveA.setPlaybackRate(e.target.value));
-document.getElementById('pitchB').addEventListener('input', e => waveB.setPlaybackRate(e.target.value));
-
-// Allow drag from static list
-document.querySelectorAll('#trackList li').forEach(li => {
-  li.addEventListener('dragstart', function (e) {
-    e.dataTransfer.setData("text/plain", this.dataset.url);
-    e.dataTransfer.setData("text/label", this.textContent);
-  });
+// Pitch control
+document.getElementById('pitchA').addEventListener('input', e => {
+  waveA.setPlaybackRate(parseFloat(e.target.value));
 });
+document.getElementById('pitchB').addEventListener('input', e => {
+  waveB.setPlaybackRate(parseFloat(e.target.value));
+});
+
+// Loop logic (basic demo)
+function loopCheck() {
+  ['A', 'B'].forEach(deck => {
+    const wave = deck === 'A' ? waveA : waveB;
+    if (loopEnabled[deck] && wave.isPlaying() && wave.getCurrentTime() >= wave.getDuration()) {
+      wave.play(cuePoints[deck]);
+    }
+  });
+  requestAnimationFrame(loopCheck);
+}
+loopCheck();
