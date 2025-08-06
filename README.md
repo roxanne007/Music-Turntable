@@ -1,6 +1,11 @@
 # Music Turntable
 
-A web-based DJ turntable app built with JavaScript and [WaveSurfer.js](https://wavesurfer-js.org/) for audio waveform visualization and playback. This app allows users to drag and drop tracks onto two decks, control playback, loop, volume, pitch, and upload their own music files.
+This project began as a native audio application developed with JUCE C++ designed for advanced DJ functionality and audio processing. To increase accessibility and showcase versatility I ported the core features to a web-based version using JavaScript and WaveSurfer.js.
+
+The web version replicates dual DJ decks with interactive waveform visualizations drag and drop track loading playback controls such as play/pause loop and cue volume and pitch adjustment and the ability to upload local audio files all running entirely in the browser without installation.
+
+This project demonstrates bridging native audio programming concepts to modern web technologies combining audio engineering with responsive UI and UX design.
+
 
 ---
 
