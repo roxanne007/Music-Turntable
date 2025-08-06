@@ -16,11 +16,33 @@ const waveB = WaveSurfer.create({
 let cuePoints = { A: 0, B: 0 };
 let loopEnabled = { A: false, B: false };
 
+// Auto resume AudioContext on first user interaction
+function resumeAudioContext() {
+  const contextA = waveA.backend.getAudioContext();
+  if (contextA.state === 'suspended') {
+    contextA.resume();
+    console.log('AudioContext resumed for Deck A');
+  }
+  const contextB = waveB.backend.getAudioContext();
+  if (contextB.state === 'suspended') {
+    contextB.resume();
+    console.log('AudioContext resumed for Deck B');
+  }
+}
+document.body.addEventListener('click', resumeAudioContext, { once: true });
+
 function loadTrack(deck, url, title, bpm) {
   const wave = deck === 'A' ? waveA : waveB;
   wave.load(url);
   document.getElementById(`nowPlaying${deck}`).textContent = `Now Playing: ${title}`;
   document.getElementById(`bpm${deck}`).textContent = bpm;
+
+  wave.on('ready', () => {
+    console.log(`Track loaded on Deck ${deck}`);
+  });
+  wave.on('error', e => {
+    console.error(`Error on Deck ${deck}:`, e);
+  });
 }
 
 function togglePlay(deck) {
