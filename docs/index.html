@@ -3,51 +3,56 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Roxy DJ Deck</title>
+  <title>Roxy DJ App</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://unpkg.com/wavesurfer.js"></script>
 </head>
 <body>
   <div class="main-ui">
-    <div class="sidebar">
-      <h3>🎵 Music Library</h3>
+    <aside class="sidebar">
+      <h2>🎵 Music Library</h2>
       <input type="text" id="searchInput" placeholder="Search tracks..." />
       <ul id="trackList">
-        <li draggable="true" data-url="assets/track1.mp3" data-artist="DJ Roxy" data-genre="House" data-bpm="120">Demo Track 1</li>
-        <li draggable="true" data-url="assets/track2.mp3" data-artist="Looplord" data-genre="Techno" data-bpm="128">Demo Track 2</li>
-        <li draggable="true" data-url="assets/track3.mp3" data-artist="BassKing" data-genre="Trap" data-bpm="140">Demo Track 3</li>
+        <li draggable="true" data-url="assets/track1.mp3" data-artist="DJ Roxy" data-genre="House" data-bpm="120">Sunset Drive - DJ Roxy (120 BPM)</li>
+        <li draggable="true" data-url="assets/track2.mp3" data-artist="Beat Master" data-genre="Techno" data-bpm="128">Pulse Shift - Beat Master (128 BPM)</li>
+        <li draggable="true" data-url="assets/track3.mp3" data-artist="Looplord" data-genre="Trap" data-bpm="140">Bassline Drop - Looplord (140 BPM)</li>
+        <li draggable="true" data-url="assets/track4.mp3" data-artist="Groove Star" data-genre="Funk" data-bpm="110">Funk Motion - Groove Star (110 BPM)</li>
       </ul>
-      <div class="filter-tags">
-        <button onclick="filterGenre('All')">All</button>
-        <button onclick="filterGenre('House')">House</button>
-        <button onclick="filterGenre('Techno')">Techno</button>
-        <button onclick="filterGenre('Trap')">Trap</button>
-      </div>
-    </div>
+    </aside>
 
-    <div class="deck-container">
-      <!-- Deck A, Mixer, and Deck B stay unchanged here -->
-      <!-- Existing deck layout and script logic continues -->
-    </div>
+    <main class="decks">
+      <section class="deck" id="deckA" ondrop="handleDrop(event, 'A')" ondragover="event.preventDefault()">
+        <h3>Deck A</h3>
+        <div id="waveformA" class="waveform"></div>
+        <div class="controls">
+          <button onclick="togglePlay('A')">▶ Play / Pause</button>
+          <button onclick="toggleLoop('A')">🔁 Loop</button>
+          <button onclick="setCue('A')">🎯 Cue</button>
+          <span>BPM: <span id="bpmA">--</span></span>
+          <input type="range" id="volumeA" min="0" max="1" step="0.01" value="0.5" />
+        </div>
+      </section>
+
+      <section class="mixer">
+        <h3>Mixer</h3>
+        <label>Crossfader</label>
+        <input type="range" id="crossfader" min="0" max="1" step="0.01" value="0.5" />
+      </section>
+
+      <section class="deck" id="deckB" ondrop="handleDrop(event, 'B')" ondragover="event.preventDefault()">
+        <h3>Deck B</h3>
+        <div id="waveformB" class="waveform"></div>
+        <div class="controls">
+          <button onclick="togglePlay('B')">▶ Play / Pause</button>
+          <button onclick="toggleLoop('B')">🔁 Loop</button>
+          <button onclick="setCue('B')">🎯 Cue</button>
+          <span>BPM: <span id="bpmB">--</span></span>
+          <input type="range" id="volumeB" min="0" max="1" step="0.01" value="0.5" />
+        </div>
+      </section>
+    </main>
   </div>
 
-  <script>
-    // ...existing waveA/waveB logic
-
-    // Search filtering
-    document.getElementById('searchInput').addEventListener('input', function () {
-      const searchTerm = this.value.toLowerCase();
-      document.querySelectorAll('#trackList li').forEach(li => {
-        li.style.display = li.textContent.toLowerCase().includes(searchTerm) ? '' : 'none';
-      });
-    });
-
-    function filterGenre(genre) {
-      document.querySelectorAll('#trackList li').forEach(li => {
-        const match = li.dataset.genre === genre || genre === 'All';
-        li.style.display = match ? '' : 'none';
-      });
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
