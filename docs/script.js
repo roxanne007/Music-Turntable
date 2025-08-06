@@ -16,17 +16,21 @@ const waveB = WaveSurfer.create({
 let cuePoints = { A: 0, B: 0 };
 let loopEnabled = { A: false, B: false };
 
-// Auto resume AudioContext on first user interaction
+// Safer AudioContext resume on first user interaction
 function resumeAudioContext() {
-  const contextA = waveA.backend.getAudioContext();
-  if (contextA.state === 'suspended') {
-    contextA.resume();
-    console.log('AudioContext resumed for Deck A');
+  if (waveA && waveA.backend && typeof waveA.backend.getAudioContext === 'function') {
+    const contextA = waveA.backend.getAudioContext();
+    if (contextA.state === 'suspended') {
+      contextA.resume();
+      console.log('AudioContext resumed for Deck A');
+    }
   }
-  const contextB = waveB.backend.getAudioContext();
-  if (contextB.state === 'suspended') {
-    contextB.resume();
-    console.log('AudioContext resumed for Deck B');
+  if (waveB && waveB.backend && typeof waveB.backend.getAudioContext === 'function') {
+    const contextB = waveB.backend.getAudioContext();
+    if (contextB.state === 'suspended') {
+      contextB.resume();
+      console.log('AudioContext resumed for Deck B');
+    }
   }
 }
 document.body.addEventListener('click', resumeAudioContext, { once: true });
