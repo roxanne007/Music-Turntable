@@ -3,43 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Roxy's Web Turntable</title>
+  <title>Roxy DJ Deck</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://unpkg.com/wavesurfer.js"></script>
 </head>
 <body>
-  <div class="container">
-    <h1>🎵 Roxy's Web Turntable</h1>
-
-    <div class="turntables">
+  <div class="main-ui">
+    <div class="deck-container">
       <div class="deck" id="deckA">
-        <h2>Deck A</h2>
-        <audio id="audioA"></audio>
+        <div class="vinyl" id="vinylA"></div>
         <input type="file" accept="audio/*" onchange="loadTrack(event, 'A')">
+        <div id="waveformA" class="waveform"></div>
         <div class="controls">
-          <button onclick="togglePlay('A')">Play / Pause</button>
-          <label>Volume <input type="range" id="volumeA" min="0" max="1" step="0.01" value="0.5" /></label>
-          <label>Speed <input type="range" id="speedA" min="0.5" max="2" step="0.1" value="1" /></label>
+          <button onclick="togglePlay('A')">▶️</button>
+          <div class="sliders">
+            <label>Vol <input type="range" id="volumeA" min="0" max="1" step="0.01" value="0.5" /></label>
+            <label>Speed <input type="range" id="speedA" min="0.5" max="2" step="0.1" value="1" /></label>
+          </div>
         </div>
+      </div>
+
+      <div class="mixer">
+        <h2>MIXER</h2>
+        <label>Crossfader<input type="range" id="crossfader" min="0" max="1" step="0.01" value="0.5" /></label>
+        <label>Bass<input type="range" id="bass" min="0" max="1" step="0.01" value="0.5" /></label>
+        <label>Mid<input type="range" id="mid" min="0" max="1" step="0.01" value="0.5" /></label>
+        <label>Treble<input type="range" id="treble" min="0" max="1" step="0.01" value="0.5" /></label>
       </div>
 
       <div class="deck" id="deckB">
-        <h2>Deck B</h2>
-        <audio id="audioB"></audio>
+        <div class="vinyl" id="vinylB"></div>
         <input type="file" accept="audio/*" onchange="loadTrack(event, 'B')">
+        <div id="waveformB" class="waveform"></div>
         <div class="controls">
-          <button onclick="togglePlay('B')">Play / Pause</button>
-          <label>Volume <input type="range" id="volumeB" min="0" max="1" step="0.01" value="0.5" /></label>
-          <label>Speed <input type="range" id="speedB" min="0.5" max="2" step="0.1" value="1" /></label>
+          <button onclick="togglePlay('B')">▶️</button>
+          <div class="sliders">
+            <label>Vol <input type="range" id="volumeB" min="0" max="1" step="0.01" value="0.5" /></label>
+            <label>Speed <input type="range" id="speedB" min="0.5" max="2" step="0.1" value="1" /></label>
+          </div>
         </div>
       </div>
     </div>
-
-    <div class="crossfader">
-      <label>Crossfader</label>
-      <input type="range" id="crossfader" min="0" max="1" step="0.01" value="0.5" />
-    </div>
-
-    <p class="note">Web version of JUCE Turntable. Load two audio files and mix them live!</p>
   </div>
 
   <script src="script.js"></script>
