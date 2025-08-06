@@ -14,18 +14,18 @@
       <h3>🎵 Music Library</h3>
       <input type="text" id="searchInput" placeholder="Search tracks..." />
       <input type="file" id="fileInput" accept="audio/*" multiple />
-     <ul id="trackList">
-  <li draggable="true" data-url="assets/track1.mp3" data-artist="DJ Roxy" data-genre="House" data-bpm="120">
-    Sunset Drive 
-  </li>
-  <li draggable="true" data-url="assets/track2.mp3" data-artist="Beat Master" data-genre="Techno" data-bpm="128">
-    Pulse Shift
-  </li>
-</ul>
+      <ul id="trackList">
+        <li draggable="true" data-url="https://cdn.pixabay.com/download/audio/2022/03/14/audio_7d19e4c9c6.mp3?filename=coffee-shop-123772.mp3" data-artist="Pixabay" data-genre="Lo-Fi" data-bpm="85">
+          Coffee Shop – Pixabay (85 BPM)
+        </li>
+        <li draggable="true" data-url="https://cdn.pixabay.com/download/audio/2022/03/31/audio_21f96a548a.mp3?filename=stylish-fashion-beat-127445.mp3" data-artist="Pixabay" data-genre="Hip-Hop" data-bpm="100">
+          Stylish Beat – Pixabay (100 BPM)
+        </li>
+      </ul>
       <div class="filter-tags">
         <button onclick="filterGenre('All')">All</button>
-        <button onclick="filterGenre('House')">House</button>
-        <button onclick="filterGenre('Techno')">Techno</button>
+        <button onclick="filterGenre('Lo-Fi')">Lo-Fi</button>
+        <button onclick="filterGenre('Hip-Hop')">Hip-Hop</button>
       </div>
     </div>
 
