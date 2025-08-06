@@ -1,62 +1,71 @@
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to right, #0f0f0f, #1a1a1a);
-  color: #f5f5f5;
   margin: 0;
   padding: 0;
+  background: #0d0d0d;
+  font-family: 'Segoe UI', sans-serif;
+  color: #f0f0f0;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
 }
 
-.container {
+.main-ui {
   width: 95%;
-  max-width: 1100px;
-  padding: 30px;
-  text-align: center;
-}
-
-h1 {
-  font-size: 2.5rem;
-  color: #ff4081;
-  margin-bottom: 30px;
-  text-shadow: 0 0 10px #ff4081;
-}
-
-.turntables {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 30px;
-}
-
-.deck {
-  flex: 1 1 45%;
-  background: #222;
+  max-width: 1400px;
   padding: 20px;
-  border-radius: 20px;
-  box-shadow: 0 0 30px rgba(255, 64, 129, 0.3);
-  position: relative;
+  box-sizing: border-box;
 }
 
-.deck h2 {
-  margin-top: 0;
-  font-size: 1.5rem;
-  color: #ffc107;
+.deck-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.deck, .mixer {
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 0 25px rgba(255, 64, 129, 0.15);
+  flex: 1;
+  min-width: 300px;
+}
+
+.vinyl {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 10px;
+  background: radial-gradient(circle, #333 40%, #000 100%);
+  border-radius: 50%;
+  box-shadow: 0 0 10px #ff4081;
+  animation: spin 4s linear infinite paused;
+}
+
+.deck.playing .vinyl {
+  animation-play-state: running;
+}
+
+.waveform {
+  height: 100px;
+  margin-top: 10px;
+  background: #111;
+  border-radius: 6px;
 }
 
 .controls {
-  margin-top: 15px;
+  margin-top: 10px;
+  text-align: center;
 }
 
 .controls button {
-  padding: 10px 20px;
+  font-size: 20px;
+  padding: 10px 16px;
+  border: none;
   background: #ff4081;
   color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 1rem;
+  border-radius: 8px;
   cursor: pointer;
   transition: background 0.3s;
 }
@@ -65,36 +74,36 @@ h1 {
   background: #ff5b97;
 }
 
-.controls label {
+.sliders label {
   display: block;
-  margin: 12px 0 6px;
+  margin: 10px 0;
   font-size: 0.9rem;
-  color: #ddd;
 }
 
-.controls input[type="range"] {
+.sliders input[type="range"] {
   width: 100%;
   accent-color: #ff4081;
 }
 
-.crossfader {
-  margin-top: 40px;
+.mixer h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #00e5ff;
+  font-weight: 600;
 }
 
-.crossfader label {
-  font-size: 1rem;
-  margin-bottom: 10px;
+.mixer label {
   display: block;
-  color: #f5f5f5;
+  margin: 10px 0;
+  font-size: 0.9rem;
 }
 
-.crossfader input[type="range"] {
-  width: 80%;
+.mixer input[type="range"] {
+  width: 100%;
   accent-color: #00e5ff;
 }
 
-.note {
-  margin-top: 25px;
-  font-size: 0.9rem;
-  color: #aaa;
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
