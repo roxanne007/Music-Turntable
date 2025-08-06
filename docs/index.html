@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Roxy DJ App</title>
+  <title>Roxy DJ Deck</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://unpkg.com/wavesurfer.js"></script>
 </head>
 <body>
   <div class="main-ui">
-    <aside class="sidebar">
-      <h2>🎵 Music Library</h2>
+    <div class="sidebar">
+      <h3>🎵 Music Library</h3>
       <input type="text" id="searchInput" placeholder="Search tracks..." />
       <ul id="trackList">
         <li draggable="true" data-url="assets/track1.mp3" data-artist="DJ Roxy" data-genre="House" data-bpm="120">Sunset Drive - DJ Roxy (120 BPM)</li>
@@ -18,9 +18,15 @@
         <li draggable="true" data-url="assets/track3.mp3" data-artist="Looplord" data-genre="Trap" data-bpm="140">Bassline Drop - Looplord (140 BPM)</li>
         <li draggable="true" data-url="assets/track4.mp3" data-artist="Groove Star" data-genre="Funk" data-bpm="110">Funk Motion - Groove Star (110 BPM)</li>
       </ul>
-    </aside>
+      <div class="filter-tags">
+        <button onclick="filterGenre('All')">All</button>
+        <button onclick="filterGenre('House')">House</button>
+        <button onclick="filterGenre('Techno')">Techno</button>
+        <button onclick="filterGenre('Trap')">Trap</button>
+      </div>
+    </div>
 
-    <main class="decks">
+    <div class="deck-container">
       <section class="deck" id="deckA" ondrop="handleDrop(event, 'A')" ondragover="event.preventDefault()">
         <h3>Deck A</h3>
         <div id="waveformA" class="waveform"></div>
@@ -30,6 +36,12 @@
           <button onclick="setCue('A')">🎯 Cue</button>
           <span>BPM: <span id="bpmA">--</span></span>
           <input type="range" id="volumeA" min="0" max="1" step="0.01" value="0.5" />
+        </div>
+        <div class="eq-controls">
+          <label>Bass</label><input type="range" min="0" max="1" step="0.01" value="0.5" />
+          <label>Mid</label><input type="range" min="0" max="1" step="0.01" value="0.5" />
+          <label>Treble</label><input type="range" min="0" max="1" step="0.01" value="0.5" />
+          <label>Pitch</label><input type="range" min="0.5" max="2" step="0.01" value="1" id="pitchA" />
         </div>
       </section>
 
@@ -49,10 +61,32 @@
           <span>BPM: <span id="bpmB">--</span></span>
           <input type="range" id="volumeB" min="0" max="1" step="0.01" value="0.5" />
         </div>
+        <div class="eq-controls">
+          <label>Bass</label><input type="range" min="0" max="1" step="0.01" value="0.5" />
+          <label>Mid</label><input type="range" min="0" max="1" step="0.01" value="0.5" />
+          <label>Treble</label><input type="range" min="0" max="1" step="0.01" value="0.5" />
+          <label>Pitch</label><input type="range" min="0.5" max="2" step="0.01" value="1" id="pitchB" />
+        </div>
       </section>
-    </main>
+    </div>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    // ...existing waveA/waveB logic
+
+    document.getElementById('searchInput').addEventListener('input', function () {
+      const searchTerm = this.value.toLowerCase();
+      document.querySelectorAll('#trackList li').forEach(li => {
+        li.style.display = li.textContent.toLowerCase().includes(searchTerm) ? '' : 'none';
+      });
+    });
+
+    function filterGenre(genre) {
+      document.querySelectorAll('#trackList li').forEach(li => {
+        const match = li.dataset.genre === genre || genre === 'All';
+        li.style.display = match ? '' : 'none';
+      });
+    }
+  </script>
 </body>
 </html>
