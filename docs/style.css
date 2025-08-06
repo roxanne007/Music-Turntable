@@ -1,0 +1,83 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #111;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container {
+  width: 90%;
+  max-width: 1000px;
+  padding: 20px;
+  text-align: center;
+}
+
+.turntables {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.deck {
+  flex: 1 1 45%;
+  background: #222;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+.deck h2 {
+  margin-top: 0;
+}
+
+.controls {
+  margin-top: 10px;
+}
+
+.controls button {
+  padding: 10px 16px;
+  background: #ff4081;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.controls label {
+  display: block;
+  margin: 8px 0;
+  font-size: 0.9rem;
+}
+
+.controls input[type="range"] {
+  width: 100%;
+}
+
+.crossfader {
+  margin-top: 30px;
+}
+
+.crossfader label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 1rem;
+}
+
+.crossfader input[type="range"] {
+  width: 100%;
+}
+
+.note {
+  margin-top: 20px;
+  font-size: 0.85rem;
+  color: #aaa;
+}

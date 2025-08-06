@@ -1,0 +1,71 @@
+﻿  CoordinatePlot.cpp
+  Track.cpp
+  PlaylistComponent.cpp
+  WaveformDisplay.cpp
+  DeckGUI.cpp
+  DJAudioPlayer.cpp
+  Main.cpp
+  MainComponent.cpp
+  The contents of <filesystem> are available only with C++17 or later.
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\WaveformDisplay.cpp(61,29): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\WaveformDisplay.cpp(81,71): warning C4100: 'source': unreferenced formal parameter
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(74,54): warning C4100: 'event': unreferenced formal parameter
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(92,62): warning C4305: 'argument': truncation from 'int' to 'char'
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(92,57): warning C4309: 'argument': truncation of constant value
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(92,76): warning C4305: 'argument': truncation from 'int' to 'char'
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(92,71): warning C4309: 'argument': truncation of constant value
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(103,16): warning C4305: 'argument': truncation from 'int' to 'char'
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(103,11): warning C4309: 'argument': truncation of constant value
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(104,16): warning C4305: 'argument': truncation from 'int' to 'char'
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(104,11): warning C4309: 'argument': truncation of constant value
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(121,60): warning C4305: 'argument': truncation from 'int' to 'char'
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(121,55): warning C4309: 'argument': truncation of constant value
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(121,78): warning C4305: 'argument': truncation from 'int' to 'char'
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(121,73): warning C4309: 'argument': truncation of constant value
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(122,60): warning C4305: 'argument': truncation from 'int' to 'char'
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(122,55): warning C4309: 'argument': truncation of constant value
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(122,78): warning C4305: 'argument': truncation from 'int' to 'char'
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(122,73): warning C4309: 'argument': truncation of constant value
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(133,19): warning C4305: 'argument': truncation from 'int' to 'char'
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(133,14): warning C4309: 'argument': truncation of constant value
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(133,44): warning C4244: '=': conversion from 'ValueType' to 'float', possible loss of data
+          with
+          [
+              ValueType=int
+          ]
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(134,19): warning C4305: 'argument': truncation from 'int' to 'char'
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(134,14): warning C4309: 'argument': truncation of constant value
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(134,48): warning C4244: '=': conversion from 'ValueType' to 'float', possible loss of data
+          with
+          [
+              ValueType=int
+          ]
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(222,33): warning C4305: 'argument': truncation from 'int' to 'char'
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(222,28): warning C4309: 'argument': truncation of constant value
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(222,48): warning C4305: 'argument': truncation from 'int' to 'char'
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(222,43): warning C4309: 'argument': truncation of constant value
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(224,83): warning C4305: 'argument': truncation from 'int' to 'char'
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\CoordinatePlot.cpp(224,78): warning C4309: 'argument': truncation of constant value
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\PlaylistComponent.cpp(88,61): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\PlaylistComponent.cpp(95,25): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\PlaylistComponent.cpp(101,48): warning C4100: 'height': unreferenced formal parameter
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\PlaylistComponent.cpp(100,48): warning C4100: 'width': unreferenced formal parameter
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\PlaylistComponent.cpp(99,48): warning C4100: 'rowNumber': unreferenced formal parameter
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\PlaylistComponent.cpp(120,40): warning C4100: 'rowIsSelected': unreferenced formal parameter
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\PlaylistComponent.cpp(152,60): warning C4100: 'isRowSelected': unreferenced formal parameter
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\DJAudioPlayer.cpp(92,33): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\PlaylistComponent.cpp(304,26): warning C4244: '=': conversion from '__int64' to 'int', possible loss of data
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\Main.cpp(24,42): warning C4100: 'commandLine': unreferenced formal parameter
+C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Source\Main.cpp(46,54): warning C4100: 'commandLine': unreferenced formal parameter
+  include_juce_audio_basics.cpp
+  include_juce_audio_devices.cpp
+  include_juce_audio_formats.cpp
+  include_juce_audio_processors.cpp
+  include_juce_audio_utils.cpp
+  include_juce_core.cpp
+  include_juce_data_structures.cpp
+  include_juce_events.cpp
+  include_juce_graphics.cpp
+  include_juce_gui_extra.cpp
+  include_juce_gui_basics.cpp
+  OtoDecks_App.vcxproj -> C:\Users\roxy\Downloads\DJ-juce-master\DJ-juce-master\Builds\VisualStudio2019\x64\Debug\App\OtoDecks.exe
