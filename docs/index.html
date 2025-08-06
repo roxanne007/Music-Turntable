@@ -6,13 +6,13 @@
   <title>Roxy DJ Deck</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://unpkg.com/wavesurfer.js"></script>
-  <script defer src="script.js"></script>
 </head>
 <body>
   <div class="main-ui">
-    <aside class="sidebar">
+    <div class="sidebar">
       <h3>🎵 Music Library</h3>
       <input type="text" id="searchInput" placeholder="Search tracks..." />
+      <input type="file" id="fileInput" accept="audio/*" multiple />
       <ul id="trackList">
         <li draggable="true" data-url="assets/track1.mp3" data-artist="DJ Roxy" data-genre="House" data-bpm="120">Sunset Drive - DJ Roxy (120 BPM)</li>
         <li draggable="true" data-url="assets/track2.mp3" data-artist="Beat Master" data-genre="Techno" data-bpm="128">Pulse Shift - Beat Master (128 BPM)</li>
@@ -24,14 +24,13 @@
         <button onclick="filterGenre('House')">House</button>
         <button onclick="filterGenre('Techno')">Techno</button>
         <button onclick="filterGenre('Trap')">Trap</button>
-        <button onclick="filterGenre('Funk')">Funk</button>
       </div>
-    </aside>
+    </div>
 
-    <main class="deck-container">
+    <div class="deck-container">
       <section class="deck" id="deckA" ondrop="handleDrop(event, 'A')" ondragover="event.preventDefault()">
         <h3>Deck A</h3>
-        <div class="now-playing" id="nowPlayingA">No track loaded</div>
+        <p id="nowPlayingA">🎧 No track loaded</p>
         <div id="waveformA" class="waveform"></div>
         <div class="controls">
           <button onclick="togglePlay('A')">▶ Play / Pause</button>
@@ -41,10 +40,10 @@
           <input type="range" id="volumeA" min="0" max="1" step="0.01" value="0.5" />
         </div>
         <div class="eq-controls">
-          <label>Bass</label><input id="bassA" type="range" min="0" max="2" step="0.01" value="1" />
-          <label>Mid</label><input id="midA" type="range" min="0" max="2" step="0.01" value="1" />
-          <label>Treble</label><input id="trebleA" type="range" min="0" max="2" step="0.01" value="1" />
-          <label>Pitch</label><input id="pitchA" type="range" min="0.5" max="2" step="0.01" value="1" />
+          <label>Bass</label><input type="range" min="0" max="1" step="0.01" value="0.5" />
+          <label>Mid</label><input type="range" min="0" max="1" step="0.01" value="0.5" />
+          <label>Treble</label><input type="range" min="0" max="1" step="0.01" value="0.5" />
+          <label>Pitch</label><input type="range" min="0.5" max="2" step="0.01" value="1" id="pitchA" />
         </div>
       </section>
 
@@ -56,7 +55,7 @@
 
       <section class="deck" id="deckB" ondrop="handleDrop(event, 'B')" ondragover="event.preventDefault()">
         <h3>Deck B</h3>
-        <div class="now-playing" id="nowPlayingB">No track loaded</div>
+        <p id="nowPlayingB">🎧 No track loaded</p>
         <div id="waveformB" class="waveform"></div>
         <div class="controls">
           <button onclick="togglePlay('B')">▶ Play / Pause</button>
@@ -66,13 +65,15 @@
           <input type="range" id="volumeB" min="0" max="1" step="0.01" value="0.5" />
         </div>
         <div class="eq-controls">
-          <label>Bass</label><input id="bassB" type="range" min="0" max="2" step="0.01" value="1" />
-          <label>Mid</label><input id="midB" type="range" min="0" max="2" step="0.01" value="1" />
-          <label>Treble</label><input id="trebleB" type="range" min="0" max="2" step="0.01" value="1" />
-          <label>Pitch</label><input id="pitchB" type="range" min="0.5" max="2" step="0.01" value="1" />
+          <label>Bass</label><input type="range" min="0" max="1" step="0.01" value="0.5" />
+          <label>Mid</label><input type="range" min="0" max="1" step="0.01" value="0.5" />
+          <label>Treble</label><input type="range" min="0" max="1" step="0.01" value="0.5" />
+          <label>Pitch</label><input type="range" min="0.5" max="2" step="0.01" value="1" id="pitchB" />
         </div>
       </section>
-    </main>
+    </div>
   </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
