@@ -1,53 +1,81 @@
-const audioA = document.getElementById('audioA');
-const audioB = document.getElementById('audioB');
+let waveA, waveB;
+
+const vinylA = document.getElementById('vinylA');
+const vinylB = document.getElementById('vinylB');
+const deckA = document.getElementById('deckA');
+const deckB = document.getElementById('deckB');
+
 const volumeA = document.getElementById('volumeA');
 const volumeB = document.getElementById('volumeB');
 const speedA = document.getElementById('speedA');
 const speedB = document.getElementById('speedB');
 const crossfader = document.getElementById('crossfader');
 
-// Set initial volumes
-audioA.volume = 0.5;
-audioB.volume = 0.5;
+window.addEventListener('DOMContentLoaded', () => {
+  waveA = WaveSurfer.create({
+    container: '#waveformA',
+    waveColor: '#ff4081',
+    progressColor: '#ffc107',
+    height: 100,
+    barWidth: 2,
+    responsive: true,
+  });
 
-// Toggle play/pause
+  waveB = WaveSurfer.create({
+    container: '#waveformB',
+    waveColor: '#00e5ff',
+    progressColor: '#ff4081',
+    height: 100,
+    barWidth: 2,
+    responsive: true,
+  });
+
+  waveA.setVolume(0.5);
+  waveB.setVolume(0.5);
+});
+
 function togglePlay(deck) {
-  const audio = deck === 'A' ? audioA : audioB;
-  if (audio.paused) {
-    audio.play();
+  if (deck === 'A') {
+    waveA.playPause();
+    deckA.classList.toggle('playing');
   } else {
-    audio.pause();
+    waveB.playPause();
+    deckB.classList.toggle('playing');
   }
 }
 
-// Load track from file input
 function loadTrack(event, deck) {
   const file = event.target.files[0];
-  const audio = deck === 'A' ? audioA : audioB;
-  if (file) {
-    const url = URL.createObjectURL(file);
-    audio.src = url;
-    audio.load();
+  if (!file) return;
+  const url = URL.createObjectURL(file);
+
+  if (deck === 'A') {
+    waveA.load(url);
+    deckA.classList.remove('playing');
+  } else {
+    waveB.load(url);
+    deckB.classList.remove('playing');
   }
 }
 
-// Volume and speed controls
 volumeA.addEventListener('input', () => {
-  audioA.volume = volumeA.value * (1 - crossfader.value);
+  waveA.setVolume(parseFloat(volumeA.value) * (1 - parseFloat(crossfader.value)));
 });
+
 volumeB.addEventListener('input', () => {
-  audioB.volume = volumeB.value * crossfader.value;
+  waveB.setVolume(parseFloat(volumeB.value) * parseFloat(crossfader.value));
 });
 
 speedA.addEventListener('input', () => {
-  audioA.playbackRate = speedA.value;
-});
-speedB.addEventListener('input', () => {
-  audioB.playbackRate = speedB.value;
+  waveA.setPlaybackRate(parseFloat(speedA.value));
 });
 
-// Crossfader logic
+speedB.addEventListener('input', () => {
+  waveB.setPlaybackRate(parseFloat(speedB.value));
+});
+
 crossfader.addEventListener('input', () => {
-  audioA.volume = volumeA.value * (1 - crossfader.value);
-  audioB.volume = volumeB.value * crossfader.value;
+  const cf = parseFloat(crossfader.value);
+  waveA.setVolume(parseFloat(volumeA.value) * (1 - cf));
+  waveB.setVolume(parseFloat(volumeB.value) * cf);
 });
