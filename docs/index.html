@@ -10,7 +10,7 @@
 </head>
 <body>
   <div class="main-ui">
-    <div class="sidebar">
+    <aside class="sidebar">
       <h3>🎵 Music Library</h3>
       <input type="text" id="searchInput" placeholder="Search tracks..." />
       <ul id="trackList">
@@ -18,7 +18,6 @@
         <li draggable="true" data-url="assets/track2.mp3" data-artist="Beat Master" data-genre="Techno" data-bpm="128">Pulse Shift - Beat Master (128 BPM)</li>
         <li draggable="true" data-url="assets/track3.mp3" data-artist="Looplord" data-genre="Trap" data-bpm="140">Bassline Drop - Looplord (140 BPM)</li>
         <li draggable="true" data-url="assets/track4.mp3" data-artist="Groove Star" data-genre="Funk" data-bpm="110">Funk Motion - Groove Star (110 BPM)</li>
-        <li draggable="true" data-url="assets/track5.mp3" data-artist="Roxy" data-genre="House" data-bpm="123">My New Track - Roxy (123 BPM)</li>
       </ul>
       <div class="filter-tags">
         <button onclick="filterGenre('All')">All</button>
@@ -27,11 +26,12 @@
         <button onclick="filterGenre('Trap')">Trap</button>
         <button onclick="filterGenre('Funk')">Funk</button>
       </div>
-    </div>
+    </aside>
 
-    <div class="deck-container">
+    <main class="deck-container">
       <section class="deck" id="deckA" ondrop="handleDrop(event, 'A')" ondragover="event.preventDefault()">
         <h3>Deck A</h3>
+        <div class="now-playing" id="nowPlayingA">No track loaded</div>
         <div id="waveformA" class="waveform"></div>
         <div class="controls">
           <button onclick="togglePlay('A')">▶ Play / Pause</button>
@@ -41,10 +41,10 @@
           <input type="range" id="volumeA" min="0" max="1" step="0.01" value="0.5" />
         </div>
         <div class="eq-controls">
-          <label>Bass</label><input id="bassA" type="range" min="0" max="1" step="0.01" value="0.5" />
-          <label>Mid</label><input id="midA" type="range" min="0" max="1" step="0.01" value="0.5" />
-          <label>Treble</label><input id="trebleA" type="range" min="0" max="1" step="0.01" value="0.5" />
-          <label>Pitch</label><input type="range" min="0.5" max="2" step="0.01" value="1" id="pitchA" />
+          <label>Bass</label><input id="bassA" type="range" min="0" max="2" step="0.01" value="1" />
+          <label>Mid</label><input id="midA" type="range" min="0" max="2" step="0.01" value="1" />
+          <label>Treble</label><input id="trebleA" type="range" min="0" max="2" step="0.01" value="1" />
+          <label>Pitch</label><input id="pitchA" type="range" min="0.5" max="2" step="0.01" value="1" />
         </div>
       </section>
 
@@ -56,6 +56,7 @@
 
       <section class="deck" id="deckB" ondrop="handleDrop(event, 'B')" ondragover="event.preventDefault()">
         <h3>Deck B</h3>
+        <div class="now-playing" id="nowPlayingB">No track loaded</div>
         <div id="waveformB" class="waveform"></div>
         <div class="controls">
           <button onclick="togglePlay('B')">▶ Play / Pause</button>
@@ -65,13 +66,13 @@
           <input type="range" id="volumeB" min="0" max="1" step="0.01" value="0.5" />
         </div>
         <div class="eq-controls">
-          <label>Bass</label><input id="bassB" type="range" min="0" max="1" step="0.01" value="0.5" />
-          <label>Mid</label><input id="midB" type="range" min="0" max="1" step="0.01" value="0.5" />
-          <label>Treble</label><input id="trebleB" type="range" min="0" max="1" step="0.01" value="0.5" />
-          <label>Pitch</label><input type="range" min="0.5" max="2" step="0.01" value="1" id="pitchB" />
+          <label>Bass</label><input id="bassB" type="range" min="0" max="2" step="0.01" value="1" />
+          <label>Mid</label><input id="midB" type="range" min="0" max="2" step="0.01" value="1" />
+          <label>Treble</label><input id="trebleB" type="range" min="0" max="2" step="0.01" value="1" />
+          <label>Pitch</label><input id="pitchB" type="range" min="0.5" max="2" step="0.01" value="1" />
         </div>
       </section>
-    </div>
+    </main>
   </div>
 </body>
 </html>
