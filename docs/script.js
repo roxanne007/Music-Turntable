@@ -1,4 +1,3 @@
-// Initialize WaveSurfer instances for Deck A and Deck B
 const waveA = WaveSurfer.create({
   container: '#waveformA',
   waveColor: 'violet',
@@ -16,21 +15,14 @@ const waveB = WaveSurfer.create({
 let cuePoints = { A: 0, B: 0 };
 let loopEnabled = { A: false, B: false };
 
-// Safer AudioContext resume on first user interaction
 function resumeAudioContext() {
-  if (waveA && waveA.backend && typeof waveA.backend.getAudioContext === 'function') {
+  if (waveA?.backend?.getAudioContext) {
     const contextA = waveA.backend.getAudioContext();
-    if (contextA.state === 'suspended') {
-      contextA.resume();
-      console.log('AudioContext resumed for Deck A');
-    }
+    if (contextA.state === 'suspended') contextA.resume();
   }
-  if (waveB && waveB.backend && typeof waveB.backend.getAudioContext === 'function') {
+  if (waveB?.backend?.getAudioContext) {
     const contextB = waveB.backend.getAudioContext();
-    if (contextB.state === 'suspended') {
-      contextB.resume();
-      console.log('AudioContext resumed for Deck B');
-    }
+    if (contextB.state === 'suspended') contextB.resume();
   }
 }
 document.body.addEventListener('click', resumeAudioContext, { once: true });
@@ -41,12 +33,8 @@ function loadTrack(deck, url, title, bpm) {
   document.getElementById(`nowPlaying${deck}`).textContent = `Now Playing: ${title}`;
   document.getElementById(`bpm${deck}`).textContent = bpm;
 
-  wave.on('ready', () => {
-    console.log(`Track loaded on Deck ${deck}`);
-  });
-  wave.on('error', e => {
-    console.error(`Error on Deck ${deck}:`, e);
-  });
+  wave.on('ready', () => console.log(`Track loaded on Deck ${deck}`));
+  wave.on('error', e => console.error(`Error on Deck ${deck}:`, e));
 }
 
 function togglePlay(deck) {
@@ -71,9 +59,7 @@ function handleDrop(event, deck) {
   loadTrack(deck, url, title, bpm);
 }
 
-// Drag functionality
-const tracks = document.querySelectorAll('#trackList li');
-tracks.forEach(track => {
+document.querySelectorAll('#trackList li').forEach(track => {
   track.addEventListener('dragstart', e => {
     e.dataTransfer.setData('url', track.dataset.url);
     e.dataTransfer.setData('title', track.textContent);
@@ -81,7 +67,6 @@ tracks.forEach(track => {
   });
 });
 
-// File Upload Handler
 document.getElementById('fileInput').addEventListener('change', (e) => {
   const list = document.getElementById('trackList');
   for (let file of e.target.files) {
@@ -102,7 +87,6 @@ document.getElementById('fileInput').addEventListener('change', (e) => {
   }
 });
 
-// Search Functionality
 document.getElementById('searchInput').addEventListener('input', function () {
   const term = this.value.toLowerCase();
   document.querySelectorAll('#trackList li').forEach(li => {
@@ -117,23 +101,11 @@ function filterGenre(genre) {
   });
 }
 
-// Volume controls
-document.getElementById('volumeA').addEventListener('input', (e) => {
-  waveA.setVolume(e.target.value);
-});
-document.getElementById('volumeB').addEventListener('input', (e) => {
-  waveB.setVolume(e.target.value);
-});
+document.getElementById('volumeA').addEventListener('input', e => waveA.setVolume(e.target.value));
+document.getElementById('volumeB').addEventListener('input', e => waveB.setVolume(e.target.value));
+document.getElementById('pitchA').addEventListener('input', e => waveA.setPlaybackRate(parseFloat(e.target.value)));
+document.getElementById('pitchB').addEventListener('input', e => waveB.setPlaybackRate(parseFloat(e.target.value)));
 
-// Pitch control
-document.getElementById('pitchA').addEventListener('input', e => {
-  waveA.setPlaybackRate(parseFloat(e.target.value));
-});
-document.getElementById('pitchB').addEventListener('input', e => {
-  waveB.setPlaybackRate(parseFloat(e.target.value));
-});
-
-// Loop logic (basic demo)
 function loopCheck() {
   ['A', 'B'].forEach(deck => {
     const wave = deck === 'A' ? waveA : waveB;
