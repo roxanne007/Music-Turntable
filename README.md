@@ -21,6 +21,7 @@ A web-based DJ turntable app built with JavaScript and [WaveSurfer.js](https://w
 Live demo hosted on GitHub Pages:  
 [https://roxanne007.github.io/Music-Turntable/](https://roxanne007.github.io/Music-Turntable/)
 
+<img width="1492" height="819" alt="Screenshot 2025-08-06 at 7 38 21 pm" src="https://github.com/user-attachments/assets/c678f6d1-9c77-4e4c-9771-69edbf61d992" />
 ---
 
 Navigate to the project directory:
@@ -65,7 +66,7 @@ WaveSurfer.js (loaded via CDN)
 
 # Contributing
 Feel free to fork, submit issues, and pull requests! Suggestions for new features or improvements are welcome.
-<img width="1492" height="819" alt="Screenshot 2025-08-06 at 7 38 21 pm" src="https://github.com/user-attachments/assets/c678f6d1-9c77-4e4c-9771-69edbf61d992" />
+
 
 # License
 This project is open-source and available under the MIT License.
