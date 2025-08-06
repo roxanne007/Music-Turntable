@@ -1,124 +1,67 @@
 let waveA, waveB;
+let cueA = 0, cueB = 0;
 let loopA = false, loopB = false;
 
-const deckA = document.getElementById('deckA');
-const deckB = document.getElementById('deckB');
+document.addEventListener('DOMContentLoaded', () => {
+  waveA = WaveSurfer.create({ container: '#waveformA', waveColor: '#ff4081', progressColor: '#ffc107' });
+  waveB = WaveSurfer.create({ container: '#waveformB', waveColor: '#00e5ff', progressColor: '#ff4081' });
 
-const volumeA = document.getElementById('volumeA');
-const volumeB = document.getElementById('volumeB');
-const speedA = document.getElementById('speedA');
-const speedB = document.getElementById('speedB');
-const crossfader = document.getElementById('crossfader');
+  waveA.on('finish', () => { if (loopA) waveA.play(cueA); });
+  waveB.on('finish', () => { if (loopB) waveB.play(cueB); });
 
-window.addEventListener('DOMContentLoaded', () => {
-  waveA = WaveSurfer.create({
-    container: '#waveformA',
-    waveColor: '#ff4081',
-    progressColor: '#ffc107',
-    height: 100,
-    barWidth: 2,
-    responsive: true,
+  document.querySelectorAll('#trackList li').forEach(item => {
+    item.addEventListener('dragstart', e => {
+      e.dataTransfer.setData('text/plain', item.dataset.url);
+      e.dataTransfer.setData('bpm', item.dataset.bpm);
+    });
   });
 
-  waveB = WaveSurfer.create({
-    container: '#waveformB',
-    waveColor: '#00e5ff',
-    progressColor: '#ff4081',
-    height: 100,
-    barWidth: 2,
-    responsive: true,
+  document.getElementById('searchInput').addEventListener('input', function () {
+    const val = this.value.toLowerCase();
+    document.querySelectorAll('#trackList li').forEach(li => {
+      li.style.display = li.textContent.toLowerCase().includes(val) ? '' : 'none';
+    });
   });
-
-  waveA.setVolume(0.5);
-  waveB.setVolume(0.5);
-
-  waveA.on('finish', () => { if (loopA) waveA.play(); });
-  waveB.on('finish', () => { if (loopB) waveB.play(); });
 });
 
-function togglePlay(deck) {
+function handleDrop(e, deck) {
+  e.preventDefault();
+  const url = e.dataTransfer.getData('text/plain');
+  const bpm = e.dataTransfer.getData('bpm');
   if (deck === 'A') {
-    waveA.playPause();
-    deckA.classList.toggle('playing');
+    waveA.load(url);
+    document.getElementById('bpmA').innerText = bpm;
   } else {
-    waveB.playPause();
-    deckB.classList.toggle('playing');
+    waveB.load(url);
+    document.getElementById('bpmB').innerText = bpm;
   }
+}
+
+function togglePlay(deck) {
+  if (deck === 'A') waveA.playPause();
+  else waveB.playPause();
 }
 
 function toggleLoop(deck) {
-  if (deck === 'A') {
-    loopA = !loopA;
-    document.getElementById('loopA').classList.toggle('active', loopA);
-  } else {
-    loopB = !loopB;
-    document.getElementById('loopB').classList.toggle('active', loopB);
-  }
+  if (deck === 'A') loopA = !loopA;
+  else loopB = !loopB;
 }
 
-function loadTrack(event, deck) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const url = URL.createObjectURL(file);
-  loadTrackURL(url, deck);
+function setCue(deck) {
+  if (deck === 'A') cueA = waveA.getCurrentTime();
+  else cueB = waveB.getCurrentTime();
 }
 
-function loadTrackURL(url, deck) {
-  if (deck === 'A') {
-    waveA.load(url);
-    deckA.classList.remove('playing');
-  } else {
-    waveB.load(url);
-    deckB.classList.remove('playing');
-  }
-}
-
-function handleDrop(event, deck) {
-  event.preventDefault();
-  const url = event.dataTransfer.getData('text/plain');
-  loadTrackURL(url, deck);
-}
-
-document.querySelectorAll('#trackList li').forEach(item => {
-  item.addEventListener('dragstart', e => {
-    e.dataTransfer.setData('text/plain', item.getAttribute('data-url'));
-  });
+document.getElementById('volumeA').addEventListener('input', e => {
+  waveA.setVolume(parseFloat(e.target.value));
 });
 
-volumeA.addEventListener('input', () => {
-  waveA.setVolume(parseFloat(volumeA.value) * (1 - parseFloat(crossfader.value)));
+document.getElementById('volumeB').addEventListener('input', e => {
+  waveB.setVolume(parseFloat(e.target.value));
 });
 
-volumeB.addEventListener('input', () => {
-  waveB.setVolume(parseFloat(volumeB.value) * parseFloat(crossfader.value));
+document.getElementById('crossfader').addEventListener('input', e => {
+  const value = parseFloat(e.target.value);
+  waveA.setVolume(1 - value);
+  waveB.setVolume(value);
 });
-
-speedA.addEventListener('input', () => {
-  waveA.setPlaybackRate(parseFloat(speedA.value));
-});
-
-speedB.addEventListener('input', () => {
-  waveB.setPlaybackRate(parseFloat(speedB.value));
-});
-
-crossfader.addEventListener('input', () => {
-  const cf = parseFloat(crossfader.value);
-  waveA.setVolume(parseFloat(volumeA.value) * (1 - cf));
-  waveB.setVolume(parseFloat(volumeB.value) * cf);
-});
-
-// Search filtering
-document.getElementById('searchInput').addEventListener('input', function () {
-  const searchTerm = this.value.toLowerCase();
-  document.querySelectorAll('#trackList li').forEach(li => {
-    li.style.display = li.textContent.toLowerCase().includes(searchTerm) ? '' : 'none';
-  });
-});
-
-// Genre filtering
-function filterGenre(genre) {
-  document.querySelectorAll('#trackList li').forEach(li => {
-    const match = li.dataset.genre === genre || genre === 'All';
-    li.style.display = match ? '' : 'none';
-  });
-}
