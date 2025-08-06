@@ -6,104 +6,97 @@ body {
   color: #f0f0f0;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
   min-height: 100vh;
 }
 
 .main-ui {
-  width: 95%;
-  max-width: 1400px;
-  padding: 20px;
-  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  max-width: 1600px;
+  height: 100vh;
+  overflow: hidden;
 }
 
-.deck-container {
+.sidebar {
+  background: #111;
+  padding: 20px;
+  width: 300px;
+  border-right: 1px solid #333;
   display: flex;
-  justify-content: space-between;
-  gap: 20px;
+  flex-direction: column;
+  box-shadow: inset -1px 0 0 #222;
+}
+
+.sidebar h3 {
+  margin: 0 0 10px;
+  font-size: 1.2rem;
+}
+
+#searchInput {
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  background: #222;
+  color: #fff;
+}
+
+#trackList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+#trackList li {
+  padding: 10px;
+  margin-bottom: 8px;
+  background: #222;
+  border-radius: 6px;
+  cursor: grab;
+  font-size: 0.95rem;
+  transition: background 0.2s;
+}
+
+#trackList li:hover {
+  background: #333;
+}
+
+.filter-tags {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
-.deck, .mixer {
-  background: #1a1a1a;
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 0 25px rgba(255, 64, 129, 0.15);
+.filter-tags button {
   flex: 1;
-  min-width: 300px;
-}
-
-.vinyl {
-  width: 120px;
-  height: 120px;
-  margin: 0 auto 10px;
-  background: radial-gradient(circle, #333 40%, #000 100%);
-  border-radius: 50%;
-  box-shadow: 0 0 10px #ff4081;
-  animation: spin 4s linear infinite paused;
-}
-
-.deck.playing .vinyl {
-  animation-play-state: running;
-}
-
-.waveform {
-  height: 100px;
-  margin-top: 10px;
-  background: #111;
-  border-radius: 6px;
-}
-
-.controls {
-  margin-top: 10px;
-  text-align: center;
-}
-
-.controls button {
-  font-size: 20px;
-  padding: 10px 16px;
-  border: none;
+  padding: 6px 8px;
   background: #ff4081;
-  color: white;
-  border-radius: 8px;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 0.85rem;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.2s;
 }
 
-.controls button:hover {
+.filter-tags button:hover {
   background: #ff5b97;
 }
 
-.sliders label {
-  display: block;
-  margin: 10px 0;
-  font-size: 0.9rem;
+.deck-container {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  overflow-y: auto;
 }
 
-.sliders input[type="range"] {
-  width: 100%;
-  accent-color: #ff4081;
-}
-
-.mixer h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #00e5ff;
-  font-weight: 600;
-}
-
-.mixer label {
-  display: block;
-  margin: 10px 0;
-  font-size: 0.9rem;
-}
-
-.mixer input[type="range"] {
-  width: 100%;
-  accent-color: #00e5ff;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+/* Add your existing styles for .deck, .waveform, .vinyl, .controls, .mixer, etc. below as needed */
