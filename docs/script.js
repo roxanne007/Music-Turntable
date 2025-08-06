@@ -1,84 +1,129 @@
-// script.js
-
-const wavesurferA = WaveSurfer.create({
+let waveA = WaveSurfer.create({
   container: '#waveformA',
-  waveColor: '#999',
-  progressColor: '#0f0',
+  waveColor: '#ddd',
+  progressColor: '#f44336',
+  height: 80
 });
-const wavesurferB = WaveSurfer.create({
+
+let waveB = WaveSurfer.create({
   container: '#waveformB',
-  waveColor: '#999',
-  progressColor: '#0ff',
+  waveColor: '#ddd',
+  progressColor: '#2196f3',
+  height: 80
 });
 
-const deckState = {
-  A: { wave: wavesurferA, loop: false, cueTime: 0 },
-  B: { wave: wavesurferB, loop: false, cueTime: 0 }
-};
+let isLoopingA = false;
+let isLoopingB = false;
+let cueA = 0;
+let cueB = 0;
 
-function handleDrop(e, deckId) {
-  e.preventDefault();
-  const url = e.dataTransfer.getData('text') || e.target.dataset.url;
-  const track = e.target.closest('li');
-  const bpm = track?.dataset.bpm;
-  const deck = deckState[deckId];
+// Load track to the correct deck
+function loadTrack(deck, url, label) {
+  const wave = deck === 'A' ? waveA : waveB;
+  const volumeSlider = document.getElementById(`volume${deck}`);
+  const pitchSlider = document.getElementById(`pitch${deck}`);
+  const bpmDisplay = document.getElementById(`bpm${deck}`);
+  const nowPlaying = document.getElementById(`nowPlaying${deck}`);
 
-  deck.wave.load(url);
-  if (bpm) document.getElementById(`bpm${deckId}`).textContent = bpm;
+  wave.load(url);
+  wave.setVolume(volumeSlider.value);
+  wave.setPlaybackRate(pitchSlider.value);
+  nowPlaying.textContent = `🎧 Now playing: ${label}`;
+  bpmDisplay.textContent = '--';
 }
 
-function togglePlay(deckId) {
-  const wave = deckState[deckId].wave;
+// Toggle play/pause
+function togglePlay(deck) {
+  const wave = deck === 'A' ? waveA : waveB;
   wave.playPause();
 }
 
-function toggleLoop(deckId) {
-  const deck = deckState[deckId];
-  deck.loop = !deck.loop;
-  if (deck.loop) {
-    deck.wave.on('finish', () => deck.wave.play(deck.cueTime));
+// Toggle loop
+function toggleLoop(deck) {
+  const wave = deck === 'A' ? waveA : waveB;
+  const isLooping = deck === 'A' ? isLoopingA : isLoopingB;
+
+  if (!isLooping) {
+    const cue = deck === 'A' ? cueA : cueB;
+    const loopEnd = cue + 5; // loop 5 seconds
+    wave.play(cue, loopEnd);
+    if (deck === 'A') isLoopingA = true;
+    else isLoopingB = true;
   } else {
-    deck.wave.un('finish');
+    wave.playPause();
+    if (deck === 'A') isLoopingA = false;
+    else isLoopingB = false;
   }
 }
 
-function setCue(deckId) {
-  const wave = deckState[deckId].wave;
-  deckState[deckId].cueTime = wave.getCurrentTime();
+// Set cue point
+function setCue(deck) {
+  const wave = deck === 'A' ? waveA : waveB;
+  const currentTime = wave.getCurrentTime();
+  if (deck === 'A') cueA = currentTime;
+  else cueB = currentTime;
+  alert(`🎯 Cue set at ${currentTime.toFixed(2)}s for Deck ${deck}`);
 }
 
-document.getElementById('volumeA').addEventListener('input', e => {
-  deckState.A.wave.setVolume(e.target.value);
-});
-document.getElementById('volumeB').addEventListener('input', e => {
-  deckState.B.wave.setVolume(e.target.value);
-});
-
-document.getElementById('pitchA').addEventListener('input', e => {
-  deckState.A.wave.setPlaybackRate(e.target.value);
-});
-document.getElementById('pitchB').addEventListener('input', e => {
-  deckState.B.wave.setPlaybackRate(e.target.value);
-});
-
-function updateEQ(deckId) {
-  const bass = document.getElementById(`bass${deckId}`).value;
-  const mid = document.getElementById(`mid${deckId}`).value;
-  const treble = document.getElementById(`treble${deckId}`).value;
-  // EQ logic placeholder — Web Audio API filtering would go here
-  console.log(`EQ for ${deckId} - Bass: ${bass}, Mid: ${mid}, Treble: ${treble}`);
+// Handle drag-and-drop
+function handleDrop(event, deck) {
+  event.preventDefault();
+  const url = event.dataTransfer.getData("text/plain");
+  const label = event.dataTransfer.getData("text/label");
+  if (url && label) {
+    loadTrack(deck, url, label);
+  }
 }
 
-['A', 'B'].forEach(id => {
-  ['bass', 'mid', 'treble'].forEach(band => {
-    document.getElementById(`${band}${id}`).addEventListener('input', () => updateEQ(id));
+// Genre filter
+function filterGenre(genre) {
+  document.querySelectorAll('#trackList li').forEach(li => {
+    const match = li.dataset.genre === genre || genre === 'All';
+    li.style.display = match ? '' : 'none';
+  });
+}
+
+// Search bar
+document.getElementById('searchInput').addEventListener('input', function () {
+  const term = this.value.toLowerCase();
+  document.querySelectorAll('#trackList li').forEach(li => {
+    li.style.display = li.textContent.toLowerCase().includes(term) ? '' : 'none';
   });
 });
 
-// Drag and drop trackList
-const trackItems = document.querySelectorAll('#trackList li');
-trackItems.forEach(item => {
-  item.addEventListener('dragstart', e => {
-    e.dataTransfer.setData('text', item.dataset.url);
+// File upload (adds to trackList)
+const fileInput = document.getElementById('fileInput');
+fileInput.addEventListener('change', function () {
+  [...this.files].forEach(file => {
+    const url = URL.createObjectURL(file);
+    const name = file.name.replace(/\.[^/.]+$/, "");
+    const li = document.createElement('li');
+
+    li.textContent = `${name} (User Track)`;
+    li.setAttribute('draggable', 'true');
+    li.dataset.url = url;
+    li.dataset.genre = 'User';
+    li.dataset.bpm = '--';
+
+    li.addEventListener('dragstart', function (e) {
+      e.dataTransfer.setData("text/plain", this.dataset.url);
+      e.dataTransfer.setData("text/label", this.textContent);
+    });
+
+    document.getElementById('trackList').appendChild(li);
+  });
+});
+
+// Volume & pitch controls
+document.getElementById('volumeA').addEventListener('input', e => waveA.setVolume(e.target.value));
+document.getElementById('volumeB').addEventListener('input', e => waveB.setVolume(e.target.value));
+document.getElementById('pitchA').addEventListener('input', e => waveA.setPlaybackRate(e.target.value));
+document.getElementById('pitchB').addEventListener('input', e => waveB.setPlaybackRate(e.target.value));
+
+// Allow drag from static list
+document.querySelectorAll('#trackList li').forEach(li => {
+  li.addEventListener('dragstart', function (e) {
+    e.dataTransfer.setData("text/plain", this.dataset.url);
+    e.dataTransfer.setData("text/label", this.textContent);
   });
 });
